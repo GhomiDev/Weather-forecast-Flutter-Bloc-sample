@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({
-    Key key,
-    @required GlobalKey<ScaffoldState> scaffoldKey,
+    Key? key,
+    required GlobalKey<ScaffoldState> scaffoldKey,
   })  : _scaffoldKey = scaffoldKey,
         super(key: key);
 
@@ -19,7 +19,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         ),
         color: Colors.white,
         onPressed: () {
-          _scaffoldKey.currentState.openDrawer();
+          _scaffoldKey.currentState!.openDrawer();
         },
       ),
       backgroundColor: Colors.transparent,

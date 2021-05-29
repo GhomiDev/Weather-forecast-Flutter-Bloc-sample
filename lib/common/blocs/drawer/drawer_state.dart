@@ -14,7 +14,7 @@ class NewLocationOnMapState extends DrawerState {
   final double longitude;
 
   const NewLocationOnMapState(
-      {this.latitude, this.longitude});
+      {required this.latitude, required this.longitude});
 
   @override
   List<Object> get props => [latitude, longitude];

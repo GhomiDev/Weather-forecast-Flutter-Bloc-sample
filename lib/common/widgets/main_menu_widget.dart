@@ -3,26 +3,25 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:weather_forecast_bloc/common/blocs/drawer/drawer.dart';
 import 'package:weather_forecast_bloc/common/blocs/weather/weather.dart';
 import 'package:weather_forecast_bloc/common/constants/static_values.dart';
 
 class MainMenuWidget extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const MainMenuWidget({Key key, this.scaffoldKey}) : super(key: key);
+  const MainMenuWidget({Key? key, required this.scaffoldKey}) : super(key: key);
 
   @override
   _MainMenuWidgetState createState() => _MainMenuWidgetState();
 }
 
 class _MainMenuWidgetState extends State<MainMenuWidget> {
-  Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  MarkerId selectedMarker;
-  Marker marker;
+  late MarkerId selectedMarker;
+  late Marker marker;
   var mapType;
 
   @override
@@ -30,8 +29,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
     // TODO: implement initState
     super.initState();
 
-    final String markerIdVal = '';
-    final MarkerId markerId = MarkerId(markerIdVal);
+    final markerIdVal = '';
+    final markerId = MarkerId(markerIdVal);
 
     markers.clear();
     marker = Marker(
@@ -56,12 +55,12 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
           },
           builder: (context, state) {
             if (StaticValues.weatherResponseModel!=null) {
-              String markerIdVal = '';
-              MarkerId markerId = MarkerId(markerIdVal);
+              var markerIdVal = '';
+              var markerId = MarkerId(markerIdVal);
               markers.clear();
               marker = Marker(
                 markerId: markerId,
-                position: LatLng(StaticValues.weatherResponseModel.coord.lat, StaticValues.weatherResponseModel.coord.lon),
+                position: LatLng(StaticValues.weatherResponseModel!.coord!.lat, StaticValues.weatherResponseModel!.coord!.lon),
                 infoWindow: InfoWindow(title: markerIdVal, snippet: ''),
                 onTap: () {
                   //Do somthing on clicking on the
@@ -69,8 +68,8 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
               );
               markers[markerId] = marker;
 
-              CameraPosition _kGooglePlex = CameraPosition(
-                target: LatLng(StaticValues.weatherResponseModel.coord.lat, StaticValues.weatherResponseModel.coord.lon),
+              var _kGooglePlex = CameraPosition(
+                target: LatLng(StaticValues.weatherResponseModel!.coord!.lat, StaticValues.weatherResponseModel!.coord!.lon),
                 zoom: 7,
               );
               return Scaffold(
@@ -86,7 +85,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                   foregroundColor: Colors.white,
                   backgroundColor: Colors.deepOrangeAccent,
                   onPressed: () {
-                    widget.scaffoldKey.currentState.openEndDrawer();
+                    widget.scaffoldKey.currentState!.openEndDrawer();
                   },
                   child: Icon(Icons.arrow_forward_ios),
                 ),
@@ -100,7 +99,7 @@ class _MainMenuWidgetState extends State<MainMenuWidget> {
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.deepOrangeAccent,
                 onPressed: () {
-                  widget.scaffoldKey.currentState.openEndDrawer();
+                  widget.scaffoldKey.currentState!.openEndDrawer();
                 },
                 child: Icon(Icons.arrow_forward_ios),
               ),
