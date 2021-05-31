@@ -29,6 +29,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      BlocProvider.of<WeatherBloc>(context).add(GetWeatherDataEvent(cityName: _cityNameTextEditingController.text));
+    });
+    _debounceTimer.cancel();
     _cityNameTextEditingController.addListener(_onCityNameChanged);
   }
 

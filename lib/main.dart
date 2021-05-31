@@ -1,14 +1,11 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:sailor/sailor.dart';
+import 'package:weather_forecast_bloc/common/configs/pages_location.dart';
 
 import 'common/blocs/drawer/drawer.dart';
 import 'common/blocs/weather/weather.dart';
 import 'common/blocs/navigation/navigation.dart';
-import 'common/configs/application.dart';
-import 'common/configs/routes.dart';
-import 'pages/splash/splash_page.dart';
 
 /// Custom [BlocObserver] which observes all bloc and cubit instances.
 class SimpleBlocObserver extends BlocObserver {
@@ -41,7 +38,7 @@ void main() {
   Bloc.observer = SimpleBlocObserver();
   runApp(MultiBlocProvider(providers: [
     BlocProvider<NavigationBloc>(
-      create: (context) => NavigationBloc(InitialNavigationState()),
+      create: (context) => NavigationBloc(),
     ),
     BlocProvider<DrawerBloc>(
       create: (context) => DrawerBloc(InitialDrawerState()),
@@ -53,23 +50,29 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp() {
-    final sailor = Sailor();
-    Routes.configureRoutes(sailor);
-    Application.sailor = sailor;
-  }
+
+  final routerDelegate = BeamerDelegate(
+    locationBuilder: BeamerLocationBuilder(
+      beamLocations: [
+        PagesLocation(),
+      ],
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Weather App Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      navigatorKey: Application.sailor!.navigatorKey,
-      onGenerateRoute: Application.sailor!.generator(),
-      home: SplashPage(),
+      debugShowCheckedModeBanner: false,
+      routerDelegate: routerDelegate,
+      routeInformationParser: BeamerParser(),
     );
+
+    // home: SplashPage(),
+
   }
 }
