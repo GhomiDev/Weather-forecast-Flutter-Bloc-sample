@@ -3,19 +3,19 @@ class Coord {
     double lat;
     double lon;
 
-    Coord({this.lat, this.lon});
+    Coord({required this.lat, required this.lon});
 
     factory Coord.fromJson(Map<String, dynamic> json) {
         return Coord(
-            lat: json['lat'], 
-            lon: json['lon'], 
+            lat: json['lat'] as double,
+            lon: json['lon'] as double,
         );
     }
 
     Map<String, dynamic> toJson() {
-        final Map<String, dynamic> data = new Map<String, dynamic>();
-        data['lat'] = this.lat;
-        data['lon'] = this.lon;
+        final data = <String, dynamic>{};
+        data['lat'] = lat;
+        data['lon'] = lon;
         return data;
     }
 }

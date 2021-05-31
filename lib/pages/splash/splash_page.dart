@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_forecast_bloc/common/blocs/navigation/navigation.dart';
+import 'package:beamer/beamer.dart';
 import 'dart:math' as math;
 
 class SplashPage extends StatefulWidget {
@@ -11,17 +12,21 @@ class SplashPage extends StatefulWidget {
   _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage>
-    with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Timer timer;
+class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Timer timer;
 
-  startTime() async {
-    timer = new Timer(Duration(seconds: 5), navigationPage);
+  void startTime() async {
+    timer = Timer(Duration(seconds: 5), navigationPage);
   }
 
   void navigationPage() {
     timer.cancel();
+
+    context
+      ..read<NavigationBloc>().add(NavigateToHomeEvent())
+      ..beamToNamed('/home');
+
     BlocProvider.of<NavigationBloc>(context).add(NavigateToHomeEvent());
   }
 
@@ -68,20 +73,11 @@ class _SplashPageState extends State<SplashPage>
                   (index) {
                     return AnimatedBuilder(
                       animation: _animationController,
-                      child: LinearText(),
                       builder: (context, child) {
-                        final animationRotationValue =
-                            _animationController.value *
-                                2 *
-                                math.pi /
-                                numberOfTexts;
-                        double rotation = 2 * math.pi * index / numberOfTexts +
-                            math.pi / 2 +
-                            animationRotationValue;
+                        final animationRotationValue = _animationController.value * 2 * math.pi / numberOfTexts;
+                        var rotation = 2 * math.pi * index / numberOfTexts + math.pi / 2 + animationRotationValue;
                         if (isOnLeft(rotation)) {
-                          rotation = -rotation +
-                              2 * animationRotationValue -
-                              math.pi * 2 / numberOfTexts;
+                          rotation = -rotation + 2 * animationRotationValue - math.pi * 2 / numberOfTexts;
                         }
                         return Transform(
                           alignment: Alignment.center,
@@ -92,6 +88,7 @@ class _SplashPageState extends State<SplashPage>
                           child: LinearText(),
                         );
                       },
+                      child: LinearText(),
                     );
                   },
                 ),
@@ -105,11 +102,21 @@ class _SplashPageState extends State<SplashPage>
 }
 
 class LinearText extends StatelessWidget {
+  final random = Random();
+
   @override
   Widget build(BuildContext context) {
     return RotatedBox(
       quarterTurns: 3,
       child: Container(
+        foregroundDecoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.transparent, getRandomColor(0.3), Colors.transparent],
+            begin: Alignment.bottomCenter,
+            end: Alignment.topCenter,
+            stops: [0.0, 0.9, 0.8],
+          ),
+        ),
         child: Text(
           'Weather',
           style: TextStyle(
@@ -117,23 +124,9 @@ class LinearText extends StatelessWidget {
             fontSize: 150,
           ),
         ),
-        foregroundDecoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.transparent,
-              getRandomColor(0.3),
-              Colors.transparent
-            ],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-            stops: [0.0, 0.9, 0.8],
-          ),
-        ),
       ),
     );
   }
-
-  var random = new Random();
 
   Color getRandomColor(double opacityParam) {
     switch (random.nextInt(4)) {

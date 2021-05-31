@@ -1,39 +1,36 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:sailor/sailor.dart';
+import 'package:weather_forecast_bloc/common/configs/pages_location.dart';
 
 import 'common/blocs/drawer/drawer.dart';
 import 'common/blocs/weather/weather.dart';
 import 'common/blocs/navigation/navigation.dart';
-import 'common/configs/application.dart';
-import 'common/configs/routes.dart';
-import 'pages/splash/splash_page.dart';
 
 /// Custom [BlocObserver] which observes all bloc and cubit instances.
 class SimpleBlocObserver extends BlocObserver {
   @override
-  void onEvent(Bloc bloc, Object event) {
-    print(event);
-    super.onEvent(bloc, event);
+  void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    print('onCreate -- ${bloc.runtimeType}');
   }
 
   @override
-  void onChange(Cubit cubit, Change change) {
-    print(change);
-    super.onChange(cubit, change);
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    print('onChange -- ${bloc.runtimeType}, $change');
   }
 
   @override
-  void onTransition(Bloc bloc, Transition transition) {
-    print(transition);
-    super.onTransition(bloc, transition);
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    print('onError -- ${bloc.runtimeType}, $error');
+    super.onError(bloc, error, stackTrace);
   }
 
   @override
-  void onError(Cubit cubit, Object error, StackTrace stackTrace) {
-    print(error);
-    super.onError(cubit, error, stackTrace);
+  void onClose(BlocBase bloc) {
+    super.onClose(bloc);
+    print('onClose -- ${bloc.runtimeType}');
   }
 }
 
@@ -41,7 +38,7 @@ void main() {
   Bloc.observer = SimpleBlocObserver();
   runApp(MultiBlocProvider(providers: [
     BlocProvider<NavigationBloc>(
-      create: (context) => NavigationBloc(InitialNavigationState()),
+      create: (context) => NavigationBloc(),
     ),
     BlocProvider<DrawerBloc>(
       create: (context) => DrawerBloc(InitialDrawerState()),
@@ -53,23 +50,29 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp() {
-    final sailor = Sailor();
-    Routes.configureRoutes(sailor);
-    Application.sailor = sailor;
-  }
+
+  final routerDelegate = BeamerDelegate(
+    locationBuilder: BeamerLocationBuilder(
+      beamLocations: [
+        PagesLocation(),
+      ],
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Weather App Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      navigatorKey: Application.sailor.navigatorKey,
-      onGenerateRoute: Application.sailor.generator(),
-      home: SplashPage(),
+      debugShowCheckedModeBanner: false,
+      routerDelegate: routerDelegate,
+      routeInformationParser: BeamerParser(),
     );
+
+    // home: SplashPage(),
+
   }
 }

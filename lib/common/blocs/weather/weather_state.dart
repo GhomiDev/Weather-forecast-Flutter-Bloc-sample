@@ -1,6 +1,5 @@
 
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:weather_forecast_bloc/common/models/weather/weather_response_model.dart';
 
 abstract class WeatherState extends Equatable{
@@ -18,7 +17,7 @@ class NotBusyState extends WeatherState {}
 class WeatherDataReceivedState extends WeatherState {
   final WeatherResponseModel weatherData;
 
-  WeatherDataReceivedState({@required this.weatherData});
+  WeatherDataReceivedState({required this.weatherData});
 
   @override
   List<Object> get props =>[weatherData];
@@ -27,7 +26,7 @@ class WeatherDataReceivedState extends WeatherState {
 class FailureState extends WeatherState {
   final String error;
 
-  FailureState({this.error});
+  FailureState({required this.error});
 
   @override
   List<Object> get props => [error];

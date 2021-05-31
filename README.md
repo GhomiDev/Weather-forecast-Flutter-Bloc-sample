@@ -11,7 +11,7 @@ A sample **Flutter** application by Seyed Abbas Ghomi.
 
 - [Http](https://pub.flutter-io.cn/packages/http)
 
-- [Sailor](https://pub.flutter-io.cn/packages/sailor)
+- [Beamer](https://pub.dev/packages/beamer)
 
 - [Equatable](https://pub.flutter-io.cn/packages/equatable)
 

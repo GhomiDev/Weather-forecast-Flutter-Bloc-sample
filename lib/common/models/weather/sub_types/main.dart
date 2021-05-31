@@ -1,19 +1,23 @@
 
 class Main {
+    // ignore: non_constant_identifier_names
     var feels_like;
     int humidity;
     int pressure;
     var temp;
+    // ignore: non_constant_identifier_names
     var temp_max;
+    // ignore: non_constant_identifier_names
     var temp_min;
 
-    Main({this.feels_like, this.humidity, this.pressure, this.temp, this.temp_max, this.temp_min});
+    // ignore: non_constant_identifier_names
+    Main({required this.feels_like, required this.humidity, required this.pressure, this.temp, this.temp_max, this.temp_min});
 
     factory Main.fromJson(Map<String, dynamic> json) {
         return Main(
             feels_like: json['feels_like'], 
-            humidity: json['humidity'], 
-            pressure: json['pressure'], 
+            humidity: json['humidity'] as int,
+            pressure: json['pressure'] as int,
             temp: json['temp'], 
             temp_max: json['temp_max'], 
             temp_min: json['temp_min'], 
@@ -21,13 +25,13 @@ class Main {
     }
 
     Map<String, dynamic> toJson() {
-        final Map<String, dynamic> data = new Map<String, dynamic>();
-        data['feels_like'] = this.feels_like;
-        data['humidity'] = this.humidity;
-        data['pressure'] = this.pressure;
-        data['temp'] = this.temp;
-        data['temp_max'] = this.temp_max;
-        data['temp_min'] = this.temp_min;
+        final data = <String, dynamic>{};
+        data['feels_like'] = feels_like;
+        data['humidity'] = humidity;
+        data['pressure'] = pressure;
+        data['temp'] = temp;
+        data['temp_max'] = temp_max;
+        data['temp_min'] = temp_min;
         return data;
     }
 }

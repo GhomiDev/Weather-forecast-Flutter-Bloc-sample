@@ -1,0 +1,26 @@
+include: package:pedantic/analysis_options.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - "**/*.g.dart"
+  strong-mode:
+    implicit-casts: false
+    implicit-dynamic: true
+  errors:
+    missing_required_param: error
+    parameter_assignments: error
+    avoid_relative_lib_imports: error
+    unused_element:        error
+    unused_import:         error
+    unused_local_variable: error
+    dead_code:             error
+
+linter:
+  rules:
+    - parameter_assignments
+    - avoid_relative_lib_imports
+    - avoid_types_as_parameter_names
+    - literal_only_boolean_expressions
+    - no_adjacent_strings_in_list
+    - valid_regexps

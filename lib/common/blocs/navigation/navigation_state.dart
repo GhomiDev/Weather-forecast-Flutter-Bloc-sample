@@ -8,3 +8,5 @@ abstract class NavigationState extends Equatable{
 }
 
 class InitialNavigationState extends NavigationState {}
+class SplashNavigationState extends NavigationState {}
+class HomeNavigationState extends NavigationState {}

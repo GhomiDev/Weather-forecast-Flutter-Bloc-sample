@@ -1,32 +1,35 @@
 name: weather_forecast_bloc
-description: A sample Flutter application using bloc by Seyed Abbas Ghomi.
+description: A new Flutter project.
 
-publish_to: 'none'
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.1.0+1
+
+version: 1.0.1+2
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  cupertino_icons: ^1.0.0
-  bloc: ^6.1.0
-  flutter_bloc: ^6.0.6
-  http: ^0.12.2
-  sailor: ^0.7.1
-  equatable: ^1.2.5
-  google_maps_flutter: ^1.0.5
-  flutter_staggered_grid_view: ^0.3.2
-
   flutter:
     sdk: flutter
+
+  cupertino_icons: ^1.0.3
+  bloc: ^7.0.0
+  flutter_bloc: ^7.0.1
+  http: ^0.13.3
+  equatable: ^2.0.2
+  beamer: ^0.13.3
+  google_maps_flutter: ^2.0.6
+  flutter_staggered_grid_view: ^0.4.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.10.4
-  mobx_codegen: ^1.1.1+3
+  build_runner: ^2.0.4
+  pedantic: ^1.11.0
 
 flutter:
 
   uses-material-design: true
+
+

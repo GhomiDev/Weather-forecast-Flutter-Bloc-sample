@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class WeatherTile extends StatelessWidget {
   WeatherTile(
-      {this.foregroundColor,
-        this.backgroundColor,
-        this.iconData,
-        this.title,
-        this.description});
+      {required this.foregroundColor,
+        required this.backgroundColor,
+        required this.iconData,
+        required this.title,
+        required this.description});
 
   final Color foregroundColor;
   final Color backgroundColor;
@@ -16,9 +16,9 @@ class WeatherTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Card(
+    return Card(
       color: backgroundColor,
-      child: new InkWell(
+      child: InkWell(
         onTap: () {},
         child: Column(
           children: [

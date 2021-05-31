@@ -3,37 +3,36 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_forecast_bloc/common/blocs/weather/weather.dart';
-import 'package:weather_forecast_bloc/common/constants/enums.dart';
 import 'package:weather_forecast_bloc/common/constants/static_values.dart';
 import 'package:weather_forecast_bloc/common/widgets/app_bar_widget.dart';
 import 'package:weather_forecast_bloc/common/widgets/grid_widget.dart';
 import 'package:weather_forecast_bloc/common/widgets/main_menu_widget.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-  final String title;
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  // List<ReactionDisposer> _reactionDisposersList;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   //Text widgets titles
   final String idleTextTitle = 'Listening to your thoughts...';
   final String listeningTextTitle = 'Nothing happening...';
 
   //to check if user is typing or not debounce timer is used
-  Timer _debounceTimer;
+  late Timer _debounceTimer;
 
   //City name text field controller
-  var _cityNameTextEditingController = TextEditingController();
+  final _cityNameTextEditingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      BlocProvider.of<WeatherBloc>(context).add(GetWeatherDataEvent(cityName: _cityNameTextEditingController.text));
+    });
+    _debounceTimer.cancel();
     _cityNameTextEditingController.addListener(_onCityNameChanged);
   }
 
@@ -43,22 +42,7 @@ class _HomePageState extends State<HomePage> {
     _cityNameTextEditingController.dispose();
   }
 
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   _weatherStore ??= Provider.of<WeatherStore>(context);
-  //   _reactionDisposersList ??= [
-  //     reaction((_) => _weatherStore.error, (String message) {
-  //       _scaffoldKey.currentState.showSnackBar(
-  //         SnackBar(
-  //           content: Text(message),
-  //         ),
-  //       );
-  //     }),
-  //   ];
-  // }
-
-  Size screenSize;
+  late Size screenSize;
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                         checkWeatherState(state),
                         StaticValues.weatherResponseModel==null? Container():
                         GridWidget(
-                          weatherResponseModel: StaticValues.weatherResponseModel,
+                          weatherResponseModel: StaticValues.weatherResponseModel!,
                         ),
                       ],
                     );
@@ -119,8 +103,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _onCityNameChanged() {
-    if (_debounceTimer?.isActive ?? false) _debounceTimer.cancel();
+  void _onCityNameChanged() {
+    if (_debounceTimer.isActive) _debounceTimer.cancel();
     _debounceTimer = Timer(const Duration(milliseconds: 500), () {
       BlocProvider.of<WeatherBloc>(context).add(GetWeatherDataEvent(cityName: _cityNameTextEditingController.text));
     });
@@ -136,8 +120,5 @@ class _HomePageState extends State<HomePage> {
     } else {
       return Text(idleTextTitle, textAlign: TextAlign.center);
     }
-
-
-
   }
 }

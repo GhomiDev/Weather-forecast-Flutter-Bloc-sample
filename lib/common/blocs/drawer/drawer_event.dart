@@ -11,7 +11,7 @@ class NewLocationOnMapEvent extends DrawerEvent {
   final double latitude;
   final double longitude;
 
-  NewLocationOnMapEvent({this.latitude, this.longitude});
+  NewLocationOnMapEvent({required this.latitude, required this.longitude});
 
   @override
   List<Object> get props => [latitude, longitude];
