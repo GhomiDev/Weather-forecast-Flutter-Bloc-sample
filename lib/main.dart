@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_forecast_bloc/common/configs/application.dart';
 import 'package:weather_forecast_bloc/common/configs/pages_location.dart';
 
 import 'common/blocs/drawer/drawer.dart';
@@ -49,7 +50,23 @@ void main() {
   ], child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    Application.stateBeamerKey = GlobalKey<BeamerState>();
+    Application.beamer = Beamer(
+      key: Application.stateBeamerKey,
+      routerDelegate: routerDelegate,
+    );
+    super.initState();
+  }
 
   final routerDelegate = BeamerDelegate(
     locationBuilder: BeamerLocationBuilder(
@@ -58,6 +75,7 @@ class MyApp extends StatelessWidget {
       ],
     ),
   );
+
 
   @override
   Widget build(BuildContext context) {

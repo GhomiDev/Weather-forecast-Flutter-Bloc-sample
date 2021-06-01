@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_forecast_bloc/common/blocs/navigation/navigation.dart';
-import 'package:beamer/beamer.dart';
+// import 'package:beamer/beamer.dart';
 import 'dart:math' as math;
 
 class SplashPage extends StatefulWidget {
@@ -23,11 +23,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
   void navigationPage() {
     timer.cancel();
 
-    context
-      ..read<NavigationBloc>().add(NavigateToHomeEvent())
-      ..beamToNamed('/home');
-
-    BlocProvider.of<NavigationBloc>(context).add(NavigateToHomeEvent());
+    BlocProvider.of<NavigationBloc>(context).add(NavigateToHomeEvent(context));
   }
 
   @override

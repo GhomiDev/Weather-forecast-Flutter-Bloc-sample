@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:bloc/bloc.dart';
 import 'navigation.dart';
 
@@ -10,10 +11,10 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
   Stream<NavigationState> mapEventToState(NavigationEvent event) async* {
     if (event is NavigateToSplashEvent) {
       currentPage = 'splash';
-      yield SplashNavigationState();
+      Beamer.of(event.context).beamToNamed('splash');
     } else if (event is NavigateToHomeEvent) {
       currentPage = 'home';
-      yield HomeNavigationState();
+      Beamer.of(event.context).beamToNamed('home');
     }
   }
 }
